@@ -2,13 +2,13 @@ var db = require('../db').dbConnection;
 var esc = require('../escape.js');
 
 var dbQuery = function(string, success) {
-  db.query(string, function(err) {
+  db.query(string, function(err, rows, fieldlist) {
     if (err) {
       throw err;
     } else {
       console.log('Success: ', string);
       if (success) {
-        success();
+        success(rows);
       }
     }
   });
@@ -16,12 +16,15 @@ var dbQuery = function(string, success) {
 
 module.exports = {
   messages: {
-    get: function() {}, // a function which produces all the messages
+    get: function(callback) {
+      var queryString = 'SELECT * FROM messages';
+      dbQuery(queryString, callback);
+    }, // a function which produces all the messages
     post: function(req, callback) {
       //var queryString = 'INSERT IGNORE INTO rooms (name) VALUES(\'' + esc(req.roomname) + '\')';
 
       //dbQuery(queryString, function(callback) {
-      queryString = 'INSERT INTO messages (user, message, roomname) VALUES(\'' 
+      var queryString = 'INSERT INTO messages (user, message, roomname) VALUES(\'' 
                         + esc(req.username) + '\',\'' 
                         + esc(req.message) + '\',\'' 
                         + esc(req.roomname) + '\')';
