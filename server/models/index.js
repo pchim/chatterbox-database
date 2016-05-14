@@ -1,24 +1,32 @@
 var db = require('../db').dbConnection;
 var esc = require('../escape.js');
 
+var dbQuery = function(string, success) {
+  db.query(string, function(err) {
+    if (err) {
+      throw err;
+    } else {
+      console.log('Success: ', string);
+      if (success) {
+        success();
+      }
+    }
+  });
+};
+
 module.exports = {
   messages: {
     get: function() {}, // a function which produces all the messages
     post: function(req, callback) {
-      var queryString = 'INSERT INTO messages (user, message, roomname) VALUES(\'' 
+      //var queryString = 'INSERT IGNORE INTO rooms (name) VALUES(\'' + esc(req.roomname) + '\')';
+
+      //dbQuery(queryString, function(callback) {
+      queryString = 'INSERT INTO messages (user, message, roomname) VALUES(\'' 
                         + esc(req.username) + '\',\'' 
                         + esc(req.message) + '\',\'' 
                         + esc(req.roomname) + '\')';
-      db.query(queryString, function(err) {
-        if (err) {
-          throw err;
-        } else {
-          console.log('Success: ', queryString);
-          if (callback) {
-            callback();
-          }
-        }
-      });
+      dbQuery(queryString, callback);
+      //});
     } // a function which can be used to insert a message into the database
   },
 
@@ -30,17 +38,7 @@ module.exports = {
     post: function(req, callback) {
       var queryString = 'INSERT IGNORE INTO users (name) VALUES(\'' 
                         + esc(req.username) + '\')';
-      db.query(queryString, function(err) {
-        if (err) {
-          console.log('Error posting a user');
-          throw err;
-        } else {
-          console.log('Success: ', queryString);
-          if (callback) {
-            callback();
-          }
-        }
-      });
+      dbQuery(queryString, callback);
     }
   }
 };
