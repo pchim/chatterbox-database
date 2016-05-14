@@ -14,17 +14,17 @@ CREATE TABLE rooms (
 
 CREATE TABLE messages (
   /* Describe your table here.*/
-  id INT PRIMARY KEY,
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   user VARCHAR(20),
   roomname VARCHAR(20),
   message VARCHAR(140),
   created_at DATETIME,
   FOREIGN KEY (user)
-  	REFERENCES users(name),
+  	REFERENCES users(name)
 
-  FOREIGN KEY (roomname)
-  	REFERENCES rooms(name)
 );
+
+ALTER TABLE messages AUTO_INCREMENT = 1;
 
 /* Create other tables and define schemas for them here! */
 
