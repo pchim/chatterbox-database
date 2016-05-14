@@ -14,12 +14,12 @@ CREATE TABLE rooms (
 
 CREATE TABLE messages (
   /* Describe your table here.*/
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  user VARCHAR(20),
+  objectId INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(20),
   roomname VARCHAR(20),
-  message VARCHAR(140),
+  text VARCHAR(140),
   created_at DATETIME,
-  FOREIGN KEY (user)
+  FOREIGN KEY (username)
   	REFERENCES users(name)
 
 );
@@ -34,4 +34,3 @@ ALTER TABLE messages AUTO_INCREMENT = 1;
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
  *  to create the database and the tables.*/
-

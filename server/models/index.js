@@ -24,9 +24,9 @@ module.exports = {
       //var queryString = 'INSERT IGNORE INTO rooms (name) VALUES(\'' + esc(req.roomname) + '\')';
 
       //dbQuery(queryString, function(callback) {
-      var queryString = 'INSERT INTO messages (user, message, roomname) VALUES(\'' 
+      var queryString = 'INSERT INTO messages (username, text, roomname) VALUES(\'' 
                         + esc(req.username) + '\',\'' 
-                        + esc(req.message) + '\',\'' 
+                        + esc(req.text) + '\',\'' 
                         + esc(req.roomname) + '\')';
       dbQuery(queryString, callback);
       //});
